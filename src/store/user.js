@@ -1,4 +1,5 @@
-import * as firebase from 'firebase'
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
 
 class User {
   constructor (id) {
@@ -21,7 +22,6 @@ export default {
       commit('setLoading', true)
       try {
         const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
-        await user.updateProfile({displayName: name})
         commit('setUser', new User(user.uid))
         commit('setLoading', false)
       } catch (error) {
