@@ -21,6 +21,7 @@ export default {
       commit('setLoading', true)
       try {
         const user = await firebase.auth().createUserWithEmailAndPassword(email, password)
+        await user.updateProfile({displayName: name})
         commit('setUser', new User(user.uid))
         commit('setLoading', false)
       } catch (error) {
@@ -41,11 +42,21 @@ export default {
         commit('setError', error.message)
         throw error
       }
+    },
+    autoLoginUser ({commit}, payload) {
+      commit('setUser', new User(payload.uid))
+    },
+    logoutUser ({commit}) {
+      firebase.auth().signOut()
+      commit('setUser', null)
     }
   },
   getters: {
     user (state) {
       return state.user
+    },
+    isUserLoggedIn (state) {
+      return state.user !== null
     }
   }
 }
