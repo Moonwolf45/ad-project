@@ -59,6 +59,11 @@ export default {
         }).catch(() => {})
       }
     }
+  },
+  created () {
+    if (this.$route.query['loginError']) {
+      this.$store.dispatch('setError', 'Please log in access to page.')
+    }
   }
 }
 </script>
