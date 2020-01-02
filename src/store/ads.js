@@ -15,39 +15,42 @@ class Ad {
 export default {
   state: {
     ads: [
-      {
-        id: '1',
-        title: 'First Ad',
-        description: 'Hello i am first description',
-        promo: false,
-        imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
-      },
-      {
-        id: '2',
-        title: 'Two Ad',
-        description: 'Hello i am two description',
-        promo: true,
-        imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
-      },
-      {
-        id: '3',
-        title: 'Three Ad',
-        description: 'Hello i am three description',
-        promo: true,
-        imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
-      },
-      {
-        id: '4',
-        title: 'Four Ad',
-        description: 'Hello i am four description',
-        promo: false,
-        imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'
-      }
+      // {
+      //   id: '1',
+      //   title: 'First Ad',
+      //   description: 'Hello i am first description',
+      //   promo: false,
+      //   imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
+      // },
+      // {
+      //   id: '2',
+      //   title: 'Two Ad',
+      //   description: 'Hello i am two description',
+      //   promo: true,
+      //   imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
+      // },
+      // {
+      //   id: '3',
+      //   title: 'Three Ad',
+      //   description: 'Hello i am three description',
+      //   promo: true,
+      //   imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
+      // },
+      // {
+      //   id: '4',
+      //   title: 'Four Ad',
+      //   description: 'Hello i am four description',
+      //   promo: false,
+      //   imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg'
+      // }
     ]
   },
   mutations: {
     createAd (state, payload) {
       state.ads.push(payload)
+    },
+    loadAds (state, payload) {
+      state.ads = payload
     }
   },
   actions: {
@@ -61,6 +64,26 @@ export default {
         commit('createAd', {
           ...newAd, id: firebaseValue.key
         })
+        commit('setLoading', false)
+      } catch (error) {
+        commit('setError', error.message)
+        commit('setLoading', false)
+        throw error
+      }
+    },
+    async fetchAds ({commit}) {
+      commit('clearError')
+      commit('setLoading', true)
+      const resultAds = []
+
+      try {
+        const firebaseVal = await firebase.database().ref('ads').once('value')
+        const ads = firebaseVal.val()
+        Object.keys(ads).forEach(key => {
+          const ad = ads[key]
+          resultAds.push(new Ad(ad.title, ad.description, ad.ownerId, ad.imageSrc, ad.promo, key))
+        })
+        commit('loadAds', resultAds)
         commit('setLoading', false)
       } catch (error) {
         commit('setError', error.message)
