@@ -53,6 +53,8 @@ export default {
           description: this.description,
           promo: this.promo
         }
+
+        console.log(ad)
       }
     }
   }
