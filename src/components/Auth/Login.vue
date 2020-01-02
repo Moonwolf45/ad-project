@@ -8,12 +8,14 @@
                     </v-toolbar>
                     <v-card-text>
                         <v-form ref="form" v-model="valid" validation>
-                            <v-text-field prepend-icon="contact_mail" name="email" label="E-mail" type="email" :rules="emailRules" v-model="email"></v-text-field>
-                            <v-text-field prepend-icon="lock" name="password" label="Password" type="password" :counter="6" :rules="passwordRules" v-model="password"></v-text-field>
+                          <v-text-field prepend-icon="contact_mail" name="email" label="E-mail" type="email"
+                                        :rules="emailRules" v-model="email"/>
+                          <v-text-field prepend-icon="lock" name="password" label="Password" type="password"
+                                        :counter="6" :rules="passwordRules" v-model="password"/>
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
-                        <v-spacer></v-spacer>
+                      <v-spacer/>
                         <v-btn color="primary" @click="onSubmit" :loading="loading" :disabled="!valid || loading">Login</v-btn>
                     </v-card-actions>
                 </v-card>
@@ -54,7 +56,7 @@ export default {
 
         this.$store.dispatch('loginUser', user).then(() => {
           this.$router.push('/')
-        }).catch(err => console.log(err))
+        }).catch(() => {})
       }
     }
   }
