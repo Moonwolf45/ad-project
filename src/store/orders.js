@@ -58,7 +58,7 @@ export default {
         throw error
       }
     },
-    async markOrderDone ({commit}, payload) {
+    async markOrderDone ({commit, getters}, payload) {
       commit('clearError')
       try {
         await firebase.database().ref(`/users/${getters.user.id}/orders`).child(payload).update({
@@ -68,7 +68,6 @@ export default {
         commit('setError', error.message)
         throw error
       }
-    }
     }
   },
   getters: {
