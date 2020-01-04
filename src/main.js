@@ -8,7 +8,6 @@ import 'firebase/auth'
 import BuyModalComponent from './components/Shared/BuyModal'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import './src/sass/main.scss'
 
 Vue.use(Vuetify)
 Vue.component('app-buy-modal', BuyModalComponent)
