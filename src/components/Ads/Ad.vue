@@ -3,7 +3,7 @@
     <v-layout row>
       <v-flex xs12>
         <v-card v-if="!loading">
-          <v-img :src="ad.imageSrc" height="300px"/>
+          <v-img contain :src="ad.imageSrc" height="300px"/>
           <v-card-text>
             <h1 class="text--primary">{{ad.title}}</h1>
             <p>{{ad.description}}</p>
@@ -11,7 +11,7 @@
           <v-card-actions>
             <v-spacer/>
             <appEditAdModal :ad="ad" v-if="isOwner"/>
-            <v-btn color="success">Buy</v-btn>
+            <app-buy-modal :ad="ad"/>
           </v-card-actions>
         </v-card>
         <div v-else class="text-xs-center">
